@@ -1,0 +1,12 @@
+# PyInstaller output (rebuilt by build.bat)
+build/
+MegaMike.exe
+
+# Local tooling
+.claude/
+docs/superpowers/
+
+# Python / Node
+__pycache__/
+*.pyc
+node_modules/

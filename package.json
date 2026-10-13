@@ -1,0 +1,11 @@
+{
+  "name": "megamike",
+  "version": "1.0.0",
+  "description": "MegaMike: a classic-style monophonic analog synth emulator for the browser with a native Windows launcher",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\"",
+    "start": "python -m http.server 8766"
+  }
+}

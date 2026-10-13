@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MegaMike</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="toolbar">
+  <div class="toolbar-group">
+    <label for="preset-select">Preset</label>
+    <select id="preset-select"></select>
+    <button id="preset-save" title="Save the current panel settings as a user preset">Save</button>
+    <button id="preset-delete" title="Delete the selected user preset">Delete</button>
+    <button id="preset-export" title="Download the current settings as JSON">Export</button>
+    <button id="preset-import" title="Load settings from a JSON file">Import</button>
+    <input id="preset-file" type="file" accept="application/json,.json" hidden>
+  </div>
+  <div class="toolbar-group status">
+    <span id="status-audio" class="pill">audio: off</span>
+    <span id="status-midi" class="pill">midi: none</span>
+    <span id="status-octave" class="pill" title="Computer keyboard octave: [ and ] to shift">keys: Z=C3 Q=C4</span>
+    <button id="panic" title="All notes off (Esc)">Panic</button>
+    <button id="help-btn" title="Show the key map and tips">?</button>
+  </div>
+</div>
+
+<div class="stage">
+  <div class="rig" id="rig">
+  <div class="synth" id="synth">
+    <div class="cheek left"></div>
+    <div class="cabinet">
+      <div class="panel">
+        <section class="sec controllers">
+          <h2>Controllers</h2>
+          <div class="sec-body">
+            <div class="row center"><div class="slot big" data-ctl="tune"></div></div>
+            <div class="row"><div class="slot" data-ctl="glide"></div><div class="slot" data-ctl="modMix"></div></div>
+            <div class="row center"><div class="slot" data-ctl="oscMod"></div></div>
+          </div>
+        </section>
+
+        <section class="sec oscillators">
+          <h2>Oscillator Bank</h2>
+          <div class="sec-body osc-grid">
+            <div class="osc-row">
+              <div class="osc-ctl"></div>
+              <div class="slot" data-ctl="osc1Range"></div>
+              <div class="osc-name">Oscillator&#8209;1</div>
+              <div class="slot" data-ctl="osc1Wave"></div>
+            </div>
+            <div class="osc-row">
+              <div class="osc-ctl"></div>
+              <div class="slot" data-ctl="osc2Range"></div>
+              <div class="osc-mid"><div class="osc-name">Oscillator&#8209;2</div><div class="slot" data-ctl="osc2Freq"></div></div>
+              <div class="slot" data-ctl="osc2Wave"></div>
+            </div>
+            <div class="osc-row">
+              <div class="osc-ctl"><div class="slot" data-ctl="osc3Control"></div></div>
+              <div class="slot" data-ctl="osc3Range"></div>
+              <div class="osc-mid"><div class="osc-name">Oscillator&#8209;3</div><div class="slot" data-ctl="osc3Freq"></div></div>
+              <div class="slot" data-ctl="osc3Wave"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="sec mixer">
+          <h2>Mixer</h2>
+          <div class="sec-body mixer-grid">
+            <div class="mix-row"><div class="slot" data-ctl="osc1Vol"></div><div class="slot" data-ctl="osc1On"></div><div class="mix-spacer"></div></div>
+            <div class="mix-row"><div class="slot" data-ctl="osc2Vol"></div><div class="slot" data-ctl="osc2On"></div><div class="mix-spacer"></div></div>
+            <div class="mix-row"><div class="slot" data-ctl="osc3Vol"></div><div class="slot" data-ctl="osc3On"></div><div class="mix-spacer"></div></div>
+            <div class="mix-row"><div class="slot" data-ctl="extVol"></div><div class="slot" data-ctl="extOn"></div><div class="lamp-wrap"><div class="lamp" id="overload-lamp"></div><div class="ctl-label">Overload</div></div></div>
+            <div class="mix-row"><div class="slot" data-ctl="noiseVol"></div><div class="slot" data-ctl="noiseOn"></div><div class="slot" data-ctl="noiseType"></div></div>
+          </div>
+        </section>
+
+        <section class="sec modifiers">
+          <h2>Modifiers</h2>
+          <div class="sec-body">
+            <div class="sub-title">Filter</div>
+            <div class="row rockers"><div class="slot" data-ctl="filterMod"></div><div class="slot" data-ctl="kbd1"></div><div class="slot" data-ctl="kbd2"></div></div>
+            <div class="row"><div class="slot" data-ctl="cutoff"></div><div class="slot" data-ctl="emphasis"></div><div class="slot" data-ctl="contourAmt"></div></div>
+            <div class="row"><div class="slot" data-ctl="fAttack"></div><div class="slot" data-ctl="fDecay"></div><div class="slot" data-ctl="fSustain"></div></div>
+            <div class="sub-title">Loudness Contour</div>
+            <div class="row"><div class="slot" data-ctl="lAttack"></div><div class="slot" data-ctl="lDecay"></div><div class="slot" data-ctl="lSustain"></div></div>
+          </div>
+        </section>
+
+        <section class="sec output">
+          <h2>Output</h2>
+          <div class="sec-body">
+            <div class="row"><div class="slot" data-ctl="mainVol"></div><div class="slot" data-ctl="mainOn"></div></div>
+            <div class="row center"><div class="slot" data-ctl="a440"></div></div>
+            <div class="row center"><div class="slot" data-ctl="power"></div></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="deck">
+        <div class="left-deck">
+          <div class="deck-switches"><div class="slot" data-ctl="glideOn"></div><div class="slot" data-ctl="decayOn"></div></div>
+          <div class="wheels"><div class="slot" data-ctl="pitchWheel"></div><div class="slot" data-ctl="modWheel"></div></div>
+        </div>
+        <div class="keybed"><div class="keyboard" id="keyboard"></div></div>
+        <div class="right-deck">
+          <div class="logo"><span class="logo-word">MegaMike</span><span class="logo-sub">analog modeling synth</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cheek right"></div>
+  </div>
+
+  <div class="seq-module">
+    <div class="cheek left"></div>
+    <div class="cabinet seq-cabinet"><div class="panel seq-panel" id="sequencer"></div></div>
+    <div class="cheek right"></div>
+  </div>
+  </div>
+</div>
+
+<div class="overlay" id="power-overlay">
+  <div class="overlay-card">
+    <div class="overlay-title">MegaMike</div>
+    <p>Click anywhere or press a key to power up the audio engine.</p>
+    <p class="hint">Play with the mouse, the computer keyboard (Z and Q rows) or a MIDI keyboard.</p>
+  </div>
+</div>
+
+<div class="overlay hidden" id="help-overlay">
+  <div class="overlay-card help">
+    <h3>Playing</h3>
+    <ul>
+      <li><b>Mouse</b>: click and drag across the keys. Drag the wheels. Drag knobs up and down (hold Shift for fine control), scroll over them, double-click to reset.</li>
+      <li><b>Computer keyboard</b>: lower row <code>Z S X D C V G B H N J M , L . ; /</code> starts at C3, upper row <code>Q 2 W 3 E R 5 T 6 Y 7 U I 9 O 0 P</code> starts at C4. <code>[</code> and <code>]</code> shift octaves. <code>Esc</code> is all notes off.</li>
+      <li><b>MIDI</b>: any connected input plays notes; CC1 is the mod wheel, pitch bend is the pitch wheel.</li>
+    </ul>
+    <h3>MegaMike behaviour</h3>
+    <ul>
+      <li>Monophonic, lowest-note priority, single trigger: contours only restart when no key was held.</li>
+      <li>The <b>Decay</b> rocker under the wheels gives the contours a release equal to their decay time.</li>
+      <li><b>External Input</b> feeds the main output back into the mixer for the classic overdrive; the lamp shows the overload.</li>
+      <li><b>Emphasis</b> above about 7 makes the filter sing on its own. <b>Osc. 3</b> with range LO and keyboard control off is the LFO for the mod wheel.</li>
+    </ul>
+    <h3>Sequencer</h3>
+    <ul>
+      <li>Eight steps, each an eighth note at the Tempo. A step's knob sets its pitch above the root in semitones; its rocker turns the step into a rest. Gate sets how long each note is held.</li>
+      <li>While it runs, pressing any key moves the root of the sequence to that key. The pattern is remembered between sessions.</li>
+    </ul>
+    <button id="help-close">Close</button>
+  </div>
+</div>
+
+<script type="module" src="src/panel.js"></script>
+</body>
+</html>
