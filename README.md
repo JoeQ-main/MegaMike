@@ -7,8 +7,11 @@ custom DSP running in a Web Audio `AudioWorklet`.
 
 ## Running
 
-**Windows:** double-click `MegaMike.exe`. It opens the instrument in its own
-window using the Edge WebView2 runtime that ships with Windows 10 and 11.
+**Windows:** download `MegaMike.exe` from the
+[Releases page](https://github.com/JoeQ-main/MegaMike/releases/latest) and
+double-click it. It opens the instrument in its own window using the Edge
+WebView2 runtime that ships with Windows 10 and 11. (The exe is not checked
+into the repository; see "Rebuilding the executable" below to build it yourself.)
 
 **Any browser:** the page must be served over http (AudioWorklet modules do
 not load from `file://`). Double-click `MegaMike.bat`, or run
